@@ -1,20 +1,39 @@
 console.log('connecting to PostgresRDs')
+require('dotenv').config({path: '../../.env'})
+
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 
 
-const executeQuery = async ()=> {
 const knex = require('knex')({
   client: 'pg',
   connection: {
-    host: 'gstore-database-1.c3qmtyytmzic.us-east-1.rds.amazonaws.com',
-    user: 'postgres',
-    password: 'password1',
-    database: 'cart',
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
     port: 5432,
     ssl: true
   }
 });
 
+const executeInsertQuery = async ()=> {
+
+  knex('cart').insert({product: 'Cheeseburger', quantity: 2, price: 5.99})
+  .then(rows => {
+    console.log(rows);
+  })
+  .catch(err => {
+    console.error(err);
+  })
+  .finally(() => {
+    knex.destroy();
+  });
+}
+
+
+const executeSelectQuery = async ()=> {
+  console.log("host: " + process.env.HOST)
+ 
 
 knex.select('*').from('cart')
   .then(rows => {
@@ -27,7 +46,8 @@ knex.select('*').from('cart')
     knex.destroy();
   });
 }
-executeQuery()
+//executeInsertQuery()
+executeSelectQuery()
 
 // const executeQuery = async ()=> {
 //   const client = await new Client({
