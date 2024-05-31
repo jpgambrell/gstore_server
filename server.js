@@ -8,7 +8,6 @@ const { DynamoDB } = require('@aws-sdk/client-dynamodb')
 const { DynamoDBDocument} = require("@aws-sdk/lib-dynamodb")
 const express = require('express')
 
-//const {addToCart} = require('./route_handlers/add-to-cart')
 
 const dynamo = DynamoDBDocument.from(new DynamoDB());
 
@@ -32,7 +31,7 @@ const knex = require('knex')({
     },
     pool: { min: 2, max: 10 }
   });
-
+console.log('knex: ' + knex.connection)
 app.use(express.json())
 
 app.get('/catalog', getProductCatalog, (req, res)=> {
@@ -49,7 +48,9 @@ async function  getProductCatalog( req, res, next) {
 }
 
 //==================================================
-app.post('/addToCart', addToCart, (req, res)=> {
+
+
+app.post('/addToCart', addToCart(knex), (req, res)=> {
     res.status(200).send(res.body)
 })
 
