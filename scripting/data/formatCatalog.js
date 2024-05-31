@@ -2,7 +2,7 @@ console.log('hello from data formating')
 
 const { v4: uuidv4 } = require('uuid')
 const fs = require('fs')
-const prodCat = require('./data/csvjson.json')
+const prodCat = require('./csvjson.json')
 
 // let images = prodCat[0].images
 // console.log(images)

@@ -2,17 +2,7 @@ console.log('connecting to PostgresRDs')
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 const {Client} = require('pg')
 
-// const client = () => {
-//   return new Client({
-//     "port": 5432,
-//     "user": "postgres",
-//     "password": "password1",
-//     "host": "gstore-database-1.c3qmtyytmzic.us-east-1.rds.amazonaws.com",
-//     "database": "cart"
-//   })
-// }
 
-//const uploadProductCatalogJSON = async () => {
 const executeQuery = async ()=> {
   const client = await new Client({
     "port": 5432,

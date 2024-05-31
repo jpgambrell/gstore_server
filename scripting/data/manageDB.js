@@ -1,7 +1,7 @@
 const { DynamoDB } = require('@aws-sdk/client-dynamodb')
 const { DynamoDBDocument} = require("@aws-sdk/lib-dynamodb")
 
-const prodCat = require('./data/output.json')
+const prodCat = require('./output.json')
 
 //const region = "us-east-1" // your preferred region
 const dynamo = DynamoDBDocument.from(new DynamoDB());
