@@ -1,0 +1,9 @@
+{
+   "dev": {
+    "driver": "pg",
+    "user": "postgres",
+    "password": "password1",
+    "host": "gstore-database-1.c3qmtyytmzic.us-east-1.rds.amazonaws.com",
+    "database": "cart"
+   }
+}
