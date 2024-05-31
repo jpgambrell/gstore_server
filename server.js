@@ -16,9 +16,6 @@ require('dotenv').config()
 
 const app = express()
 
-console.log('process.env.HOST: ' + process.env.HOST)
-console.log('process.env.DBUSER: ' + process.env.DBUSER)
-
 const knex = require('knex')({
     client: 'pg',
     connection: {
@@ -31,7 +28,7 @@ const knex = require('knex')({
     },
     pool: { min: 2, max: 10 }
   });
-console.log('knex: ' + knex.connection)
+
 app.use(express.json())
 
 app.get('/catalog', getProductCatalog, (req, res)=> {
@@ -73,3 +70,17 @@ app.post('/addToCart', addToCart(knex), (req, res)=> {
 
 
 app.listen(3000)
+
+process.on("exit", (code) => {
+    console.log("Process exit event with code: ", code);
+    knex.destroy();
+    console.log("knex has been destroyed.");
+  });
+  
+  // just in case some user like using "kill"
+  process.on("SIGTERM", (signal) => {
+    console.log(`Process ${process.pid} received a SIGTERM signal`);
+    knex.destroy();
+    console.log("knex has been destroyed.");
+    process.exit(0);
+  });
