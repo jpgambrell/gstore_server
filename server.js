@@ -1,9 +1,15 @@
 console.log('Server started for Gstore')
 
+const prodCat = require('./data/csvjson.json')
 const express = require('express')
 const app = express()
 
 app.use(express.json())
+
+app.get('/data', (req, res)=> {
+    console.log(prodCat[0])
+    res.status(200).send(prodCat[0])
+})
 
 app.post('/format', formatBody, (req, res) => {
    // const body = req.body
