@@ -46,27 +46,9 @@ async function  getProductCatalog( req, res, next) {
 
 //==================================================
 
-
 app.post('/addToCart', addToCart(knex), (req, res)=> {
     res.status(200).send(res.body)
 })
-
-
-// async function  addToCart( req, res, next) { 
-//     console.log('addToCart called: ' + req.body)
-//     knex('cart').insert({product: req.body.product, quantity: req.body.quantity, price: req.body.price})
-//   .then(rows => {
-//     res.body = {"rowCount": rows.rowCount, "command": rows.command}
-//   })
-//   .catch(err => {
-//     console.error(err);
-//   })
-//   .finally(() => {
-//     knex.destroy();
-//     //console.log(res.body);
-//     next()
-//   });
-// }
 
 
 app.listen(3000)
