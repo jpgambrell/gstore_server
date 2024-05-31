@@ -1,14 +1,19 @@
+//npm run devStart
+
 console.log('Server started for Gstore')
 
-const prodCat = require('./data/csvjson.json')
+const { DynamoDB } = require('@aws-sdk/client-dynamodb')
+const { DynamoDBDocument} = require("@aws-sdk/lib-dynamodb")
 const express = require('express')
+
+
+const dynamo = DynamoDBDocument.from(new DynamoDB());
 const app = express()
 
 app.use(express.json())
 
-app.get('/data', (req, res)=> {
-    console.log(prodCat[0])
-    res.status(200).send(prodCat[0])
+app.get('/catalog', getProductCatalog, (req, res)=> {
+    res.status(200).send(res.body)
 })
 
 app.post('/format', formatBody, (req, res) => {
@@ -16,6 +21,11 @@ app.post('/format', formatBody, (req, res) => {
     res.status(200).send(res.body)
 })
 
+async function  getProductCatalog( req, res, next) {
+    const posts = await dynamo.scan({ TableName: "gstore_product_catalog" });
+    res.body = posts
+    next()
+}
 function formatBody(req, res, next){
     var resArr = []
     var body = req.body
@@ -33,15 +43,5 @@ function formatBody(req, res, next){
     next()
 }
 
-function stripHTMLTags(str) {
-    if ((str === null) || (str === ''))
-    return false;
-else
-    str = str.toString();
 
-// Regular expression to identify HTML tags in
-// the input string. Replacing the identified
-// HTML tag with a null string.
-return str.replace(/(<([^>]+)>)/ig, '');
-}
 app.listen(3000)
