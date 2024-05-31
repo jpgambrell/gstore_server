@@ -50,7 +50,7 @@ app.post('/addToCart', addToCart, (req, res)=> {
 })
 
 
-async function  addToCart( req, res, next) {
+async function  addToCart( req, res, next) { 
     console.log('addToCart called: ' + req.body)
     knex('cart').insert({product: req.body.product, quantity: req.body.quantity, price: req.body.price})
   .then(rows => {
