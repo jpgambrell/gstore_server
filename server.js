@@ -24,7 +24,7 @@ const knex = require('knex')({
       password: process.env.PASSWORD,
       database: process.env.DATABASE,
       port: 5432,
-      ssl: true
+      ssl: false
     },
     pool: { min: 2, max: 10 }
   });
