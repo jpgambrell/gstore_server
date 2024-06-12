@@ -3,6 +3,7 @@
 console.log('Server started for Gstore')
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 const {addToCart} = require('./route_handlers/add-to-cart')
+const {getCart} = require('./route_handlers/get-cart')
 
 const { DynamoDB } = require('@aws-sdk/client-dynamodb')
 const { DynamoDBDocument} = require("@aws-sdk/lib-dynamodb")
@@ -15,6 +16,8 @@ require('dotenv').config()
 
 
 const app = express()
+var types = require('pg').types
+types.setTypeParser(types.builtins.NUMERIC, value => parseFloat(value))
 
 const knex = require('knex')({
     client: 'pg',
@@ -35,6 +38,10 @@ app.get('/catalog', getProductCatalog, (req, res)=> {
     res.status(200).send(res.body)
 })
 
+app.get('/cart', getCart(knex), (req, res)=> {
+    res.status(200).send(res.body)
+})
+
 async function  getProductCatalog( req, res, next) {
     console.log('getProductCatalog called')
     const posts = await dynamo.scan({ TableName: "gstore_product_catalog" });
@@ -50,7 +57,7 @@ app.post('/addToCart', addToCart(knex), (req, res)=> {
     res.status(200).send(res.body)
 })
 
-
+app.disable('etag');
 app.listen(3000)
 
 process.on("exit", (code) => {
