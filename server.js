@@ -4,6 +4,7 @@ console.log('Server started for Gstore')
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 const {addToCart} = require('./route_handlers/add-to-cart')
 const {getCart} = require('./route_handlers/get-cart')
+const {deleteFromCart} = require('./route_handlers/delete-from-cart') 
 
 const { DynamoDB } = require('@aws-sdk/client-dynamodb')
 const { DynamoDBDocument} = require("@aws-sdk/lib-dynamodb")
@@ -33,29 +34,38 @@ const knex = require('knex')({
   });
 
 app.use(express.json())
-
+//--------------catalog routes
 app.get('/catalog', getProductCatalog, (req, res)=> {
     res.status(200).send(res.body)
 })
+//TODO move to own file
+async function  getProductCatalog( req, res, next) {
+  console.log('getProductCatalog called')
+  const posts = await dynamo.scan({ TableName: "gstore_product_catalog" });
+  const smallPaylout = posts.Items.slice(0, 20)
+  res.body = smallPaylout
+  //res.body = posts.Items
+  next()
+}
 
+//----------------cart routes
 app.get('/cart', getCart(knex), (req, res)=> {
     res.status(200).send(res.body)
 })
 
-async function  getProductCatalog( req, res, next) {
-    console.log('getProductCatalog called')
-    const posts = await dynamo.scan({ TableName: "gstore_product_catalog" });
-    const smallPaylout = posts.Items.slice(0, 20)
-    res.body = smallPaylout
-    //res.body = posts.Items
-    next()
-}
-
-//==================================================
-
 app.post('/addToCart', addToCart(knex), (req, res)=> {
     res.status(200).send(res.body)
 })
+app.post('/deleteFromCart', deleteFromCart(knex), (req, res)=> {
+  
+  //console.log('getCartAfterDelBeforeSend called: ' + JSON.stringify(res))
+  res.send(res.body)
+})
+
+
+
+
+
 
 app.disable('etag');
 app.listen(3000)
