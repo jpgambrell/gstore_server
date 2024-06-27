@@ -3,6 +3,7 @@
 console.log('Server started for Gstore')
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 const {addToCart} = require('./route_handlers/add-to-cart')
+const {updateCart} = require('./route_handlers/update-cart')
 const {getCart} = require('./route_handlers/get-cart')
 const {deleteFromCart} = require('./route_handlers/delete-from-cart') 
 
@@ -59,6 +60,10 @@ app.post('/addToCart', addToCart(knex), (req, res)=> {
 app.post('/deleteFromCart/:product_id', deleteFromCart(knex), (req, res)=> {
   
   console.log('req parms: ' + req.params.product_id)
+  res.send(res.body)
+})
+
+app.post('/updateCart', updateCart(knex), (req, res)=> {
   res.send(res.body)
 })
 
