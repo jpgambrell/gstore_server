@@ -1,16 +1,15 @@
 const express = require('express')
 
 exports.deleteFromCart = knex =>  {
-    
+    //TODO better error handling that calls next() to not hang the server
   return (req, res, next) => {
-    console.log('deleteFromCart called for' + req.body.product_id)
-     knex('cart').where('product_id', req.body.product_id).del()
+    console.log('deleteFromCart called for' + req.params.product_id)
+     knex('cart').where('product_id', req.params.product_id).del()
      .then(rowsAffected => {
         console.log(`${rowsAffected} row(s) deleted.`);
-        res.statusCode = (rowsAffected == 1 ? 200 : 404)
+        res.statusCode = (rowsAffected == 0 ? 404 : 201)
   })
   .then(function()  {
-    //console.log('getCartAfterDel called' + res.statusCode)
     knex.select().from('cart')
     .then(rows => {
       res.body = rows

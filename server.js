@@ -56,9 +56,9 @@ app.get('/cart', getCart(knex), (req, res)=> {
 app.post('/addToCart', addToCart(knex), (req, res)=> {
     res.status(200).send(res.body)
 })
-app.post('/deleteFromCart', deleteFromCart(knex), (req, res)=> {
+app.post('/deleteFromCart/:product_id', deleteFromCart(knex), (req, res)=> {
   
-  //console.log('getCartAfterDelBeforeSend called: ' + JSON.stringify(res))
+  console.log('req parms: ' + req.params.product_id)
   res.send(res.body)
 })
 
