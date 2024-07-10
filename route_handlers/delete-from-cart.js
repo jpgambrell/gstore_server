@@ -44,10 +44,5 @@ exports.deleteFromCart = knex =>  {
          console.error(err);
        })      
   })
-  
-
-
-    
-    
   }
 }

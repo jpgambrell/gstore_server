@@ -6,6 +6,7 @@ const {addToCart} = require('./route_handlers/add-to-cart')
 const {updateCart} = require('./route_handlers/update-cart')
 const {getCart} = require('./route_handlers/get-cart')
 const {deleteFromCart} = require('./route_handlers/delete-from-cart') 
+const {checkout} = require('./route_handlers/checkout')
 
 const { DynamoDB } = require('@aws-sdk/client-dynamodb')
 const { DynamoDBDocument} = require("@aws-sdk/lib-dynamodb")
@@ -64,6 +65,10 @@ app.post('/deleteFromCart/:cart_id/:product_id', deleteFromCart(knex), (req, res
 })
 
 app.post('/updateCart', updateCart(knex), (req, res)=> {
+  res.send(res.body)
+})
+
+app.post('/checkout/:cart_id', checkout(knex), (req, res)=> {
   res.send(res.body)
 })
 
