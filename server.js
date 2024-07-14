@@ -68,7 +68,7 @@ app.post('/updateCart', updateCart(knex), (req, res)=> {
   res.send(res.body)
 })
 
-app.post('/checkout/:cart_id', checkout(knex), (req, res)=> {
+app.post('/checkout/:user_id/:cart_id', checkout(knex), (req, res)=> {
   console.log('checkout done')
   res.send(res.body)
 })
