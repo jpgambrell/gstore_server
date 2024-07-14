@@ -51,7 +51,7 @@ async function  getProductCatalog( req, res, next) {
 }
 
 //----------------cart routes
-app.get('/cart', getCart(knex), (req, res)=> {
+app.get('/cart/:cart_by/:id', getCart(knex), (req, res)=> {
     res.status(200).send(res.body)
 })
 
@@ -69,6 +69,7 @@ app.post('/updateCart', updateCart(knex), (req, res)=> {
 })
 
 app.post('/checkout/:cart_id', checkout(knex), (req, res)=> {
+  console.log('checkout done')
   res.send(res.body)
 })
 
