@@ -23,11 +23,10 @@ const {getCartItems} = require('./knex-helper-queries')
             }).finally(() => {
               console.log('calling finally next()')
               next();
-            });
+            })
+            .catch(err => {
+              console.error(err);
+            })
           }
-        //})
-        // .catch(err => {
-        //   console.error(err);
-        // })
     };
   }
