@@ -1,4 +1,3 @@
-const express = require('express')
 const {getCartItems} = require('./knex-helper-queries')
 
 exports.addToCart = knex =>  {
