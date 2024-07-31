@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.621.0",
     "@aws-sdk/client-dynamodb": "^3.567.0",
     "@aws-sdk/client-rds-data": "^3.572.0",
     "@aws-sdk/lib-dynamodb": "^3.567.0",
