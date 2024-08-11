@@ -13,6 +13,10 @@ const {signup} = require('./route_handlers/signup')
 
 const { DynamoDB } = require('@aws-sdk/client-dynamodb')
 const { DynamoDBDocument} = require("@aws-sdk/lib-dynamodb")
+
+const { CognitoJwtVerifier } = require('aws-jwt-verify')
+
+
 const express = require('express')
 
 
@@ -45,6 +49,26 @@ app.get('/catalog', getProductCatalog, (req, res)=> {
 })
 //TODO move to own file
 async function  getProductCatalog( req, res, next) {
+
+// Verifier that expects valid access tokens:
+const verifier = CognitoJwtVerifier.create({
+  userPoolId: process.env.USER_POOL_ID,
+  tokenUse: "access",
+  clientId: process.env.CLIENT_ID
+});
+
+try {
+  
+  console.log("Verifying token..." + req.header('Authorization'));
+  const payload = await verifier.verify(req.header('Authorization'));
+  console.log("Token is valid. Payload:", payload);
+} catch(err) {
+  console.log("Token not valid! Error:", err);
+}
+
+
+
+
   console.log('getProductCatalog called')
   const posts = await dynamo.scan({ TableName: "gstore_product_catalog" });
   const smallPaylout = posts.Items.slice(0, 20)

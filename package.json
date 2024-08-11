@@ -15,6 +15,7 @@
     "@aws-sdk/client-rds-data": "^3.572.0",
     "@aws-sdk/lib-dynamodb": "^3.567.0",
     "amazon-cognito-identity-js": "^6.3.12",
+    "aws-jwt-verify": "^4.0.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
